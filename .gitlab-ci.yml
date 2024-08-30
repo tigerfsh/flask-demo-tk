@@ -35,13 +35,13 @@ build-test-job:       # This job runs in the build stage, which runs first.
   script:
     - IMAGE_TAG="$(date +%Y%m%d%H%M%S)"
     - echo $IMAGE_TAG
-    - IMAGE_NAME=$TEST_IMAGE_NAME_WITHOUT_TAG:$IMAGE_TAG
+    - IMAGE_NAME="'$TEST_IMAGE_NAME_WITHOUT_TAG':'$IMAGE_TAG'"
     - echo $IMAGE_NAME
     - docker build -t $IMAGE_NAME .
     # - docker tag $VERSION
     - docker push $IMAGE_NAME
-    - docker tag $IMAGE_NAME $TEST_IMAGE_NAME_WITHOUT_TAG:latest
-    - docker push $TEST_IMAGE_NAME_WITHOUT_TAG:latest
+    - docker tag $IMAGE_NAME "'$TEST_IMAGE_NAME_WITHOUT_TAG':latest"
+    - docker push "'$TEST_IMAGE_NAME_WITHOUT_TAG':latest"
   allow_failure: false
   tags:
     - kf-test
