@@ -31,8 +31,10 @@ build-test-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
-    - CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    - echo $CURRENT_BRANCH
+    # - CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    # - echo $CURRENT_BRANCH
+    - IMAGE_TAG="$(date +%Y%m%d%H%M)"
+    - echo $IMAGE_TAG
     # - VERSION=$(git describe --tags --abbrev=0 | awk -F '[-.]' '{print "v1.0."$3+1}')
     # - echo $VERSION
     # - IMAGE_NAME=$(192.168.1.98/channel/flask-demo:$VERSION)
