@@ -16,6 +16,10 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+variables:
+  TEST_IMAGE_NAME_WITHOUT_TAG: "192.168.1.98/channel-test/flask-demo"
+  PROD_IMAGE_NAME_WITHOUT_TAG: "192.168.1.98/channel-prod/flask-demo"
+
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
@@ -31,11 +35,13 @@ build-test-job:       # This job runs in the build stage, which runs first.
   script:
     - IMAGE_TAG="$(date +%Y%m%d%H%M%S)"
     - echo $IMAGE_TAG
-    - IMAGE_NAME=192.168.1.98/channel-test/flask-demo:$IMAGE_TAG
+    - IMAGE_NAME='$TEST_IMAGE_NAME_WITHOUT_TAG:$IMAGE_TAG'
     - echo $IMAGE_NAME
     - docker build -t $IMAGE_NAME .
     # - docker tag $VERSION
     - docker push $IMAGE_NAME
+    - docker tag $IMAGE_NAME $TEST_IMAGE_NAME_WITHOUT_TAG:latest
+    - docker push $TEST_IMAGE_NAME_WITHOUT_TAG:latest
   allow_failure: false
   tags:
     - kf-test
