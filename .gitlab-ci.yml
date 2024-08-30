@@ -21,11 +21,21 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
+before_script:
+  - echo "docker login 192.168.1.98"
+  - docker login 192.168.1.98
+
+
 build-test-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
+    - VERSION=$(git describe --tags --abbrev=0 | awk -F '[-.]' '{print "v1.0."$3+1}')
+    - IMAGE_NAME=$(192.168.1.98/channel/flask-demo:$VERSION)
+    - docker build -t IMAGE_NAME .
+    - docker tag $VERSION
+    - docker push IMAGE_NAME
   tags:
     - kf-test
   rules:
