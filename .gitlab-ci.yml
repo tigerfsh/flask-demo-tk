@@ -38,7 +38,6 @@ build-test-job:       # This job runs in the build stage, which runs first.
     - IMAGE_NAME="${TEST_IMAGE_NAME_WITHOUT_TAG}:${IMAGE_TAG}"
     - echo $IMAGE_NAME
     - docker build -t $IMAGE_NAME .
-    # - docker tag $VERSION
     - docker push $IMAGE_NAME
     - docker tag $IMAGE_NAME "${TEST_IMAGE_NAME_WITHOUT_TAG}:latest"
     - docker push "${TEST_IMAGE_NAME_WITHOUT_TAG}:latest"
@@ -80,8 +79,14 @@ deploy-test-job:      # This job runs in the deploy stage.
 build-prod-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+    - IMAGE_TAG="$(date +%Y%m%d%H%M%S)"
+    - echo $IMAGE_TAG
+    - IMAGE_NAME="${PROD_IMAGE_NAME_WITHOUT_TAG}:${IMAGE_TAG}"
+    - echo $IMAGE_NAME
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - docker tag $IMAGE_NAME "${PROD_IMAGE_NAME_WITHOUT_TAG}:latest"
+    - docker push "${PROD_IMAGE_NAME_WITHOUT_TAG}:latest"
   allow_failure: false
   tags:
     - kf-prod
