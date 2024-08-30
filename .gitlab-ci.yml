@@ -33,7 +33,7 @@ build-test-job:       # This job runs in the build stage, which runs first.
     - echo "Compile complete."
     # - CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     # - echo $CURRENT_BRANCH
-    - IMAGE_TAG="$(date +%Y%m%d%H%M)"
+    - IMAGE_TAG="$(date +%Y%m%d%H%M%S)"
     - echo $IMAGE_TAG
     # - VERSION=$(git describe --tags --abbrev=0 | awk -F '[-.]' '{print "v1.0."$3+1}')
     # - echo $VERSION
@@ -42,6 +42,7 @@ build-test-job:       # This job runs in the build stage, which runs first.
     # - docker build -t IMAGE_NAME .
     # - docker tag $VERSION
     # - docker push IMAGE_NAME
+  allow_failure: false
   tags:
     - kf-test
   rules:
@@ -81,6 +82,7 @@ build-prod-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
+  allow_failure: false
   tags:
     - kf-prod
   rules:
