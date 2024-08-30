@@ -37,7 +37,7 @@ build-test-job:       # This job runs in the build stage, which runs first.
     - echo $IMAGE_TAG
     # - VERSION=$(git describe --tags --abbrev=0 | awk -F '[-.]' '{print "v1.0."$3+1}')
     # - echo $VERSION
-    - IMAGE_NAME=$(192.168.1.98/channel-test/flask-demo:$IMAGE_TAG)
+    - IMAGE_NAME=192.168.1.98/channel-test/flask-demo:$IMAGE_TAG
     - echo $IMAGE_NAME
     - docker build -t IMAGE_NAME .
     # - docker tag $VERSION
