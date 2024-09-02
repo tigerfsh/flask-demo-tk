@@ -1,1 +1,1 @@
-(import "fdemo/fdemo.libsonnet")
+(import 'fdemo/fdemo.libsonnet')

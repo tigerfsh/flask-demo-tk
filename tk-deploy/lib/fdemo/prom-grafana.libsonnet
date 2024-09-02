@@ -1,6 +1,6 @@
-local k = import "ksonnet-util/kausal.libsonnet";
+local k = import 'ksonnet-util/kausal.libsonnet';
 
-(import "./config.libsonnet") +
+(import './config.libsonnet') +
 {
   local deployment = k.apps.v1.deployment,
   local container = k.core.v1.container,
@@ -13,10 +13,11 @@ local k = import "ksonnet-util/kausal.libsonnet";
   promgrafana: {
     prometheus: {
       deployment: deployment.new(
-        name=c.prometheus.name, replicas=1,
+        name=c.prometheus.name,
+        replicas=1,
         containers=[
           container.new(c.prometheus.name, $._images.promgrafana.prometheus)
-          + container.withPorts([port.new("api", c.prometheus.port)]),
+          + container.withPorts([port.new('api', c.prometheus.port)]),
         ],
       ),
       service: k.util.serviceFor(self.deployment),
@@ -24,15 +25,16 @@ local k = import "ksonnet-util/kausal.libsonnet";
 
     grafana: {
       deployment: deployment.new(
-        name=c.grafana.name, replicas=1,
+        name=c.grafana.name,
+        replicas=1,
         containers=[
           container.new(c.grafana.name, $._images.promgrafana.grafana)
-          + container.withPorts([port.new("ui", c.grafana.port)]),
+          + container.withPorts([port.new('ui', c.grafana.port)]),
         ],
       ),
       service:
         k.util.serviceFor(self.deployment)
-        + service.mixin.spec.withType("NodePort"),
+        + service.mixin.spec.withType('NodePort'),
     },
-  }
+  },
 }
