@@ -40,7 +40,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
 
     service: k.util.serviceFor(self.deployment),
 
-    ingress: ingress.new('polls-ingress')
+    ingress: ingress.new('flask-ingress')
              + ingress.spec.withIngressClassName('nginx')
              + ingress.spec.withRules([
                ingressRule.withHost('hello.polls.com') + ingressRule.http.withPaths([
@@ -48,7 +48,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
                  + httpIngressPath.withPathType('Prefix')
                  + httpIngressPath.backend.service.withName($._config.flask_demo.name)
                  // + httpIngressPath.backend.service.port.withName("nginx")
-                 + httpIngressPath.backend.service.port.withNumber(5000),
+                 + httpIngressPath.backend.service.port.withNumber($._config.flask_demo.port),
                ]),
              ]),
   },
