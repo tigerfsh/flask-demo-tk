@@ -5,6 +5,7 @@
     "name": "environments/fdemo/test"
   },
   "spec": {
+    "apiServer": "https://192.168.49.2:8443",
     "namespace": "default",
     "resourceDefaults": {},
     "expectVersions": {}

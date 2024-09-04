@@ -70,6 +70,7 @@ deploy-test-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+    # - tk apply --auto-approve always  environments/fdemo/test/
   tags:
     - kf-test
   rules:
