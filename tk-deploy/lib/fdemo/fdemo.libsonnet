@@ -33,6 +33,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
       replicas=1,
       containers=[
         container.new($._config.flask_demo.name, $._images.apps.flask_demo)
+        + container.withImagePullPolicy('Always')
         + container.withPorts([port.new('api', $._config.flask_demo.port)])
         + container.withEnvFrom(envFrom.configMapRef.withName(self.configMap.metadata.name)),
       ]
